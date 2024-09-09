@@ -50,16 +50,16 @@ class GeneticAlgorithmPruner(Pruner):
     def __init__(
             self, baseline, num_generations=15, population_size=10,
             tournament_size=5, crossover_rate=0.9, mutation_rate=0.1,
-            elite_size=2, target_loss=1.0, max_loss_penalty=1e8
+            elite_size=2, loss_to_warmup=1.0, max_loss_penalty=1e8
     ):
-        super().__init__(baseline, target_loss, max_loss_penalty)
+        super().__init__(baseline, loss_to_warmup, max_loss_penalty)
         self.num_generations = num_generations
         self.population_size = population_size
         self.tournament_size = tournament_size
         self.crossover_rate = crossover_rate
         self.mutation_rate = mutation_rate
         self.elite_size = elite_size
-        self.target_loss = target_loss
+        self.loss_to_warmup = loss_to_warmup
 
 
     def initialize_layer_population(self, layer_index) -> List[Chromosome]:
@@ -127,7 +127,7 @@ class GeneticAlgorithmPruner(Pruner):
     def prune(self):
         for layer_index, layer in enumerate(self.baseline.model.layers):
             if len(layer.get_weights()) <= 0 : continue
-            self.max_loss = self.target_loss * (layer_index + 1) / len(self.baseline.model.layers) # Adaptive max_loss
+            self.max_loss = self.loss_to_warmup * (layer_index + 1) / len(self.baseline.model.layers) # Adaptive max_loss
 
             old_layer_mask = self.get_layer_mask(layer_index)
             population = self.initialize_layer_population(layer_index)

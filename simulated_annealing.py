@@ -10,13 +10,13 @@ pd.set_option('display.max_columns', None)
 class SimulatedAnnealingPruner(Pruner):
     def __init__(
         self, baseline, initial_temperature=1.0, iterations=200,
-        mutation_rate=0.05, target_loss=1.0, max_loss_penalty=1e8
+        mutation_rate=0.05, loss_to_warmup=1.0, max_loss_penalty=1e8
     ):
-        super().__init__(baseline, target_loss, max_loss_penalty)
+        super().__init__(baseline, loss_to_warmup, max_loss_penalty)
         self.initial_temperature = initial_temperature
         self.iterations = iterations
         self.mutation_rate = mutation_rate
-        self.target_loss = target_loss
+        self.loss_to_warmup = loss_to_warmup
         self.display_handle = display('', display_id=True)
 
     def _acceptance_probability(self, deltaE, temperature):
@@ -27,7 +27,7 @@ class SimulatedAnnealingPruner(Pruner):
     def prune(self):
         for layer_index, layer in enumerate(self.baseline.model.layers):
             if len(layer.get_weights()) <= 0 : continue
-            self.max_loss = self.target_loss * (layer_index + 1) / len(self.baseline.model.layers) # Adaptive max_loss
+            self.max_loss = self.loss_to_warmup * (layer_index + 1) / len(self.baseline.model.layers) # Adaptive max_loss
             current_obj_dict = self.calculate_objective()
             best_obj_dict = current_obj_dict
 
