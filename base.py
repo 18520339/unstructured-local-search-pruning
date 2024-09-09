@@ -74,17 +74,14 @@ class Baseline:
         self.calculate_pruning_info()
 
     def calculate_pruning_info(self):
-        self.loss, self.metrics = self.model.evaluate(data.x_test, data.y_test, verbose=0)
-        self.prunable_layers, self.layer_importances, self.total_weights = [], [], 0
+        self.loss, self.metrics = self.model.evaluate(self.data.x_test, self.data.y_test, verbose=0)
+        self.prunable_layers, self.total_weights = [], 0
 
         for layer_index, layer in enumerate(self.model.layers):
             params = layer.get_weights()
             if len(params) > 0:
-                self.layer_importances.append(np.abs(params[0]).mean())
                 self.prunable_layers.append(layer_index)
                 self.total_weights += params[0].size
-            else: self.layer_importances.append(np.nan)
-        self.layer_importances = np.array(self.layer_importances) / np.nansum(self.layer_importances)
 
     def plot_training_history(self):
         plt.figure(figsize=(12, 4))

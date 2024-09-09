@@ -65,7 +65,7 @@ class GeneticAlgorithmPruner(Pruner):
     def initialize_layer_population(self, layer_index) -> List[Chromosome]:
         init_rate = 1.0
         while True:
-            init_rate *= self.baseline.layer_importances[layer_index] * self.mutation_rate
+            init_rate *= self.mutation_rate
             population = [
                 Chromosome(self, layer_index, init_rate=init_rate)
                 for _ in tqdm(range(self.population_size), desc=f'[LAYER {layer_index}] Initialize Population')
