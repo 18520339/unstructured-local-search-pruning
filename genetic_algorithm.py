@@ -104,6 +104,7 @@ class GeneticAlgorithmPruner(Pruner):
                     child2.mutate(adaptive_mutation_rate)
                     new_population.extend([child1, child2])
                     pbar.update(2)
+                    
                 pbar.close()
                 population = new_population
                 new_population = []

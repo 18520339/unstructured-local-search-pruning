@@ -1,7 +1,5 @@
 import numpy as np
 from tqdm.notebook import tqdm
-from IPython.display import clear_output
-from ipywidgets import Output
 from base import Pruner
 
 import pandas as pd
@@ -18,7 +16,6 @@ class SimulatedAnnealingPruner(Pruner):
         self.initial_temperature = initial_temperature
         self.iterations = iterations
         self.mutation_rate = mutation_rate
-        self.log = Output()
 
     def _generate_neighbor(self):
         layer_index = np.random.choice(
@@ -36,10 +33,9 @@ class SimulatedAnnealingPruner(Pruner):
     def prune(self):
         current_obj_dict = self.calculate_objective()
         best_obj_dict = current_obj_dict
-        pbar = tqdm(range(self.iterations))
-        display(self.log)
+        display_handle = display("", display_id=True)
 
-        for step in pbar:
+        for step in tqdm(range(self.iterations)):
             temperature = self.initial_temperature / (1 + np.log(1 + step))
             if temperature <= 0: break
 
@@ -53,10 +49,7 @@ class SimulatedAnnealingPruner(Pruner):
             if deltaE < 0 or self._acceptance_probability(deltaE, temperature):
                 current_obj_dict = new_obj_dict
                 self.history.append({'layer': layer_index, 'temperature': temperature, **current_obj_dict})
-
-                with self.log:
-                    clear_output(wait=True)
-                    display(pd.DataFrame(self.history))
+                display_handle.update(pd.DataFrame(self.history))
 
                 if current_obj_dict['cost'] < best_obj_dict['cost']:
                     best_masks = [mask.copy() if mask is not None else None for mask in self.masks]
