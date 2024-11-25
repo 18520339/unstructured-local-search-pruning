@@ -47,7 +47,7 @@ class Baseline:
 
     def build_and_compile_lenet(self, optimizer, loss='sparse_categorical_crossentropy', metrics=['accuracy']):
         self.model = Sequential([
-            Input(shape=data.input_shape),
+            Input(shape=self.data.input_shape),
             Conv2D(filters=6, kernel_size=5, activation='sigmoid', padding='same', name='Conv1'),
             AvgPool2D(pool_size=2, name='AvgPool1'),
             Conv2D(filters=16, kernel_size=5, activation='sigmoid', name='Conv2'),
@@ -55,7 +55,7 @@ class Baseline:
             Flatten(name='Flatten'),
             Dense(120, activation='sigmoid', name='FC1'),
             Dense(84, activation='sigmoid', name='FC2'),
-            Dense(data.num_classes, activation='softmax', name='Output')
+            Dense(self.data.num_classes, activation='softmax', name='Output')
         ], name='LeNet')
 
         self.model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
