@@ -87,28 +87,6 @@ class Baseline:
                 self.prunable_layers.append(layer_index)
                 self.total_weights += params[0].size # Add number of weights in the layer
 
-    def plot_training_history(self):
-        plt.figure(figsize=(12, 4))
-
-        plt.subplot(1, 2, 1)
-        plt.plot(self.history['accuracy'], label='Training Accuracy')
-        plt.plot(self.history['val_accuracy'], label='Validation Accuracy')
-        plt.xlabel('Epoch')
-        plt.ylabel('Accuracy')
-        plt.title('Model Accuracy')
-        plt.legend()
-
-        plt.subplot(1, 2, 2)
-        plt.plot(self.history['loss'], label='Training Loss')
-        plt.plot(self.history['val_loss'], label='Validation Loss')
-        plt.xlabel('Epoch')
-        plt.ylabel('Loss')
-        plt.title('Model Loss')
-        plt.legend()
-
-        plt.tight_layout()
-        plt.show()
-        
         
 class Pruner(ABC):
     def __init__(self, baseline, max_loss=1.0, max_loss_penalty=1e8):
