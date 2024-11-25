@@ -24,8 +24,8 @@ def plot_training_history(history):
     plt.show()
         
 
-def visualize_pruning_results(ga_df, sa_df, ga_by_layers, sa_by_layers):
-    fig, axs = plt.subplots(2, 2, figsize=(20, 15))
+def visualize_pruning_results(ga_df, sa_df, ga_by_layers, sa_by_layers, figsize=(20, 15)):
+    _, axs = plt.subplots(2, 2, figsize=figsize)
     markers = {
         'ga_name': 'Genetic Algorithm', 'sa_name': 'Simulated Annealing',
         'ga_cost': '#1f77b4'          , 'sa_cost': '#aec7e8', # Blue and Light blue

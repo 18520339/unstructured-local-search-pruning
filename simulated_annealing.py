@@ -1,10 +1,7 @@
 import numpy as np
+import pandas as pd
 from tqdm.notebook import tqdm
 from base import Pruner
-
-import pandas as pd
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
 
 
 class SimulatedAnnealingPruner(Pruner):
