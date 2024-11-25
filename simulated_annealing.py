@@ -24,7 +24,7 @@ class SimulatedAnnealingPruner(Pruner):
         ''' Since the probability is a function of e^-x:
         - If the change in the objective is negative, the function will keep increasing to infinity
         - If the change in the objective >= 0, the function will have a range of (0, 1], making it suitable for probability calculation
-        As I researched this acceptance probability in SA is governed by an optimzation rule called Metropolis criterion
+        As I researched this acceptance probability in SA is governed by an optimization rule called Metropolis criterion
         '''
         if prob > 1: return False
         return np.random.uniform(0, 1) < prob # If the probability <= 1, accept the new mask with a certain probability

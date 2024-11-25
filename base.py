@@ -14,7 +14,7 @@ class MNIST:
         (x_train, y_train), (x_test, y_test) = mnist.load_data()
         self.y_train, self.y_test = y_train, y_test
 
-        # Add channel dimmension and normalize pixel values between 0 and 1
+        # Add channel dimension and normalize pixel values between 0 and 1
         self.x_train = x_train.reshape(-1, 28, 28, 1).astype('float32') / 255.0
         self.x_test = x_test.reshape(-1, 28, 28, 1).astype('float32') / 255.0
         self.input_shape = self.x_train.shape[1:]
